@@ -1,0 +1,33 @@
+
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+
+model images {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  file_id  String
+  url      String
+  userId   String   @db.ObjectId @unique 
+
+  // first users is the attribute which helps to fetch the whole user related to that image, second users is the field name in images model, attributes in fields corresponds to userId field in images model, references corresponds to id field in users model
+  owner    users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model users {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String   @unique
+  password  String?
+  following String[]
+  avatar    images?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
