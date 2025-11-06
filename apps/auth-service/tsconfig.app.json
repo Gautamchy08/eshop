@@ -8,7 +8,11 @@
     "resolveJsonModule": true,
     "esModuleInterop": true
   },
-  "include": ["src/**/*.ts", "../../packages/**/*.ts"],
+  "include": [
+    "src/**/*.ts",
+    "../../packages/**/*.ts",
+    "../../generated/prisma/**/*.ts"
+  ],
   "exclude": [
     "out-tsc",
     "dist",
@@ -16,9 +20,5 @@
     "src/**/*.spec.ts",
     "src/**/*.test.ts"
   ],
-  "references": [
-    {
-      "path": "../../packages/libs/prisma"
-    }
-  ]
+  "references": []
 }

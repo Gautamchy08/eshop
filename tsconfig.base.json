@@ -19,8 +19,7 @@
     "target": "es2022",
     "customConditions": ["@yes/source"],
     "paths": {
-      "@packages/libs/prisma": ["packages/libs/prisma/index.ts"],
-      "@packages/*" : ["packages/*"]
+      "@packages/*": ["packages/*"]
     }
   }
 }

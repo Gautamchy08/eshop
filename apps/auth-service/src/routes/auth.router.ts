@@ -1,9 +1,10 @@
 import  express,{Router} from "express";
 
-import { userRegistration } from "../controllers/auth.controller";
+import { loginUser, userRegistration, verifyUserOtp } from "../controllers/auth.controller";
 
 const router : Router = express.Router();
 
-router.post('/register/user',userRegistration);
-
+router.post('/user-registration',userRegistration);
+router.post('/verify-user',verifyUserOtp);
+router.post('/login-user',loginUser);
 export default router;

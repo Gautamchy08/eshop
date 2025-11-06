@@ -41,7 +41,7 @@ app.use('/api',router)
 app.use(errorMiddleware);
 
 const server = app.listen(port,()=>{
-  console.log(`Auth Service listening on port http://localhost:${port}/api`);
+  console.log(`Auth Service listening on port http://localhost:${port}/api/`);
   console.log(`api docs available at http://localhost:${port}/api-docs` )
 })
 

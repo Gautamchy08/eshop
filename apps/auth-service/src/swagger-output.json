@@ -6,12 +6,12 @@
     "version": "1.0.0"
   },
   "host": "localhost:6001",
-  "basePath": "/",
+  "basePath": "/api",
   "schemes": [
     "http"
   ],
   "paths": {
-    "/register/user": {
+    "/user-registration": {
       "post": {
         "description": "",
         "parameters": [
@@ -22,9 +22,72 @@
               "type": "object",
               "properties": {
                 "name": {
-                  "example": "any"
+                  "example": "gautam"
                 },
                 "email": {
+                  "example": "chygautam8789@gmail.com"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/verify-user": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "chygautam8789@gmail.com"
+                },
+                "otp": {
+                  "example": "any"
+                },
+                "name": {
+                  "example": "gautam"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/login-user": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "chygautam8789@gmail.com"
+                },
+                "password": {
                   "example": "any"
                 }
               }

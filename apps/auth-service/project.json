@@ -20,7 +20,7 @@
         "esbuildOptions": {
           "resolveExtensions": [".ts", ".js"],
           "alias": {
-            "@packages/libs/prisma": "packages/libs/prisma/index.ts"
+            "@packages/*": "packages/*"
           },
           "sourcemap": true,
           "outExtension": {
