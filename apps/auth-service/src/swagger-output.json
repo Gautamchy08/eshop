@@ -6,7 +6,7 @@
     "version": "1.0.0"
   },
   "host": "localhost:6001",
-  "basePath": "/api",
+  "basePath": "/",
   "schemes": [
     "http"
   ],
@@ -22,12 +22,9 @@
               "type": "object",
               "properties": {
                 "name": {
-                  "example": "gautam"
+                  "example": "any"
                 },
                 "email": {
-                  "example": "chygautam8789@gmail.com"
-                },
-                "password": {
                   "example": "any"
                 }
               }
@@ -52,13 +49,13 @@
               "type": "object",
               "properties": {
                 "email": {
-                  "example": "chygautam8789@gmail.com"
+                  "example": "any"
                 },
                 "otp": {
                   "example": "any"
                 },
                 "name": {
-                  "example": "gautam"
+                  "example": "any"
                 },
                 "password": {
                   "example": "any"
@@ -85,9 +82,56 @@
               "type": "object",
               "properties": {
                 "email": {
-                  "example": "chygautam8789@gmail.com"
+                  "example": "any"
                 },
                 "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/forgot-password-user": {
+      "post": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/verify-forgot-password-user": {
+      "post": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/reset-password-user": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "newPassword": {
                   "example": "any"
                 }
               }

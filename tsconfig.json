@@ -17,6 +17,9 @@
     },
     {
       "path": "./packages/libs/prisma"
+    },
+    {
+      "path": "./apps/user-ui"
     }
   ]
 }
