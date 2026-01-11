@@ -1,10 +1,13 @@
 'use client'
 import Link from 'next/link'
 import { navItems } from 'apps/user-ui/src/configs/constants'
-import { AlignLeft, ChevronDown } from 'lucide-react'
+import { AlignLeft, ChevronDown, CircleUser, Heart, ShoppingCart } from 'lucide-react'
 import React, { useEffect } from 'react'
 import { useState } from 'react'
+import useUser from 'apps/user-ui/src/hooks/useUser'
 const HeaderBottom = () => {
+
+   const {user,isLoading} = useUser();
    const [show, setShow] = useState(false)
    const [isSticky, setIsSticky] = useState(false)
 
@@ -67,7 +70,47 @@ const HeaderBottom = () => {
               <div>
 
                 {isSticky && (
-                    <div>Sticky Header</div>
+                             <div className='flex items-center gap-8'>
+                {/* div for sign in */}
+              <div className= 'flex items-center gap-2'>
+                {
+                  !isLoading && user ? (
+                    <>
+   <Link href='/profile'  className='w-[50px] h-[50px] font-medium  border-2 flex items-center justify-center rounded-full border-[#c1cddeab]'><CircleUser  size={30} /></Link>
+                <Link href='/login'> 
+                <span className=' block font-medium'>hello,</span>
+                <span className=' font-semibold'>{user.name.split(' ')[0]}</span>
+                </Link>
+                    </>
+                  ):<>  
+                 <Link href='/login'  className='w-[50px] h-[50px] font-medium  border-2 flex items-center justify-center rounded-full border-[#c1cddeab]'><CircleUser  size={30} /></Link>
+                <Link href='/login'> 
+                <span className=' block font-medium'>hello,</span>
+                <span className=' font-semibold'>{isLoading ? 'Loading...' : 'Sign in'}</span>
+                </Link>
+                  </>
+                }
+                </div> 
+          {/* div for wishlist  and cart*/}
+
+          <div className='flex items-center gap-6'>
+            <Link href='/wishlist' className='relative'>
+           <Heart /> 
+               <div className='size-6 border-2 border-white bg-red-600 rounded-full flex items-center justify-center absolute top-[-10px] right-[-10px] '>
+                <span className='text-white font-medium text-sm'>0</span>
+               </div>
+
+            </Link>
+              <Link href='/cart' className='relative'>
+          <ShoppingCart />
+               <div className='size-6 border-2 border-white bg-red-600 rounded-full flex items-center justify-center absolute top-[-10px] right-[-10px] '>
+                <span className='text-white font-medium text-sm'>0</span>
+               </div>
+
+            </Link>
+            </div>
+
+             </div>
                 )}
               </div>
 

@@ -1,10 +1,15 @@
+'use client'
 import Link from 'next/link'
 import React from 'react'
 import { Search,CircleUser, Heart, ShoppingCart } from 'lucide-react'
 import HeaderBottom from './header-bottom'
+import useUser from 'apps/user-ui/src/hooks/useUser'
 
 
 const Header = () => {
+
+  const {user,isLoading} = useUser();
+   console.log('user from tanstack query',user);
   return (
     <div  className='w-full bg-white'>
         <div className='w-[80%] py-2 m-auto flex items-center justify-between'>
@@ -22,17 +27,29 @@ const Header = () => {
               <div className='flex items-center gap-8'>
                 {/* div for sign in */}
               <div className= 'flex items-center gap-2'>
+                {
+                  !isLoading && user ? (
+                    <>
+   <Link href='/profile'  className='w-[50px] h-[50px] font-medium  border-2 flex items-center justify-center rounded-full border-[#c1cddeab]'><CircleUser  size={30} /></Link>
+                <Link href='/login'> 
+                <span className=' block font-medium'>hello,</span>
+                <span className=' font-semibold'>{user.name.split(' ')[0]}</span>
+                </Link>
+                    </>
+                  ):<>  
                  <Link href='/login'  className='w-[50px] h-[50px] font-medium  border-2 flex items-center justify-center rounded-full border-[#c1cddeab]'><CircleUser  size={30} /></Link>
                 <Link href='/login'> 
                 <span className=' block font-medium'>hello,</span>
-                <span className=' font-semibold'> Sign in</span>
+                <span className=' font-semibold'>{isLoading ? 'Loading...' : 'Sign in'}</span>
                 </Link>
+                  </>
+                }
                 </div> 
           {/* div for wishlist  and cart*/}
 
           <div className='flex items-center gap-6'>
             <Link href='/wishlist' className='relative'>
-           <Heart />
+           <Heart /> 
                <div className='size-6 border-2 border-white bg-red-600 rounded-full flex items-center justify-center absolute top-[-10px] right-[-10px] '>
                 <span className='text-white font-medium text-sm'>0</span>
                </div>

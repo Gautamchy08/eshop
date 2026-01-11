@@ -65,3 +65,9 @@ export class RateLimitError extends AppError {
     }
 }
 
+// new Auth error class for role based authorization
+export class AuthError extends AppError {
+    constructor(message: string = 'Authorization Error') {
+        super(message, 403,true);
+    }
+}
