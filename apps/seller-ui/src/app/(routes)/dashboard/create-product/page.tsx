@@ -387,12 +387,15 @@ const page = () => {
             <div className="mt-2">
               <ColorSelector control={control} errors={errors} />
             </div>
+            {/* custom specifications goes here */}
             <div className="mt-2">
               <CustomSpecifications control={control} errors={errors} />
             </div>
+            {/* custom properties goes here */}
             <div className="mt-2">
               <CustomProperties control={control} errors={errors} />
             </div>
+            {/* cash on delivery option goes here */}
             <div className="mt-2">
               <label>Cash on Delivery*</label>
               <select

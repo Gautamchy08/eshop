@@ -18,6 +18,7 @@ const prisma = new PrismaClient();
 export const userRegistration = async(req:Request, res:Response,next:NextFunction) => {
 
 try {
+
     validateRegistrationData(req.body,"user");
 
 const {name,email} = req.body;
@@ -129,7 +130,7 @@ export const loginUser = async (req:Request, res:Response, next:NextFunction) =>
           
         const accessToken = jwt.sign(
 
-            { userId: user.id, role : "user" },
+            { id: user.id, role : "user" },
 
             process.env.JWT_ACCESS_TOKEN_SECRET as string,
 
@@ -139,7 +140,7 @@ export const loginUser = async (req:Request, res:Response, next:NextFunction) =>
         // generate refresh token
 
         const refreshToken = jwt.sign(
-            { userId: user.id, role : "user" },
+            { id: user.id, role : "user" },
 
             process.env.JWT_REFRESH_TOKEN_SECRET as string,
 
@@ -174,7 +175,7 @@ export const loginUser = async (req:Request, res:Response, next:NextFunction) =>
 
 export const refreshToken = async(req:any, res:Response,next:NextFunction) => {
     try {
-const refreshToken = req.cookies['refresh_token'] || req.cookies['seller-refresh-token'] || req.headers.authorization?.split(" ")[1];
+const refreshToken = req.cookies['refresh_Token'] || req.cookies['seller-refresh-token'] || req.headers.authorization?.split(" ")[1];
       if(!refreshToken){
         return new ValidationError('Unauthorized! no Refresh token found');
       }
@@ -214,7 +215,7 @@ const refreshToken = req.cookies['refresh_token'] || req.cookies['seller-refresh
             );
 
             if(decoded.role === 'user'){
-                setCookie(res,'access_token', newAccessToken);
+                setCookie(res,'access_Token', newAccessToken);
             }
             else if(decoded.role === 'seller'){
                 setCookie(res,'seller-access-token', newAccessToken);

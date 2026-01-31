@@ -45,27 +45,34 @@ axiosInstance.interceptors.response.use(
         // prevent infinite loops
 
         if(error.response?.status === 401 && !originalRequest._retry){
+
+            console.log('401 intercepted from response');
+
             if(isRefreshing){
                 return new Promise((resolve) => {
                     subscribeTokenRefresh(() => resolve(axiosInstance(originalRequest)));
                 });
             } 
+            
             originalRequest._retry = true;
             isRefreshing = true;
-        }
+
             try {
-                await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}api/refresh-token`,{},{withCredentials:true});
+                console.log('trying to refresh the token....');
+                await axiosInstance.post('/api/refresh-token',{},{withCredentials:true});
                 isRefreshing = false;
                 onRefreshed();
                 return axiosInstance(originalRequest);
-            }catch (err) {
+            } catch (err) {
+                console.log('token refresh failed', err);
                 isRefreshing = false;
                 refreshSubscribers = [];
                 handleLogout();
                 return Promise.reject(err);
             }  
+        }
 
-            return Promise.reject(error);
+        // return Promise.reject(error);
     });
 export default axiosInstance;
 

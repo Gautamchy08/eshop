@@ -1,3 +1,4 @@
+import { isUser } from './../../../../packages/middleware/authorizeRole';
 import  express,{Router} from "express";
 
 import { createShop, createStripeConnectLink, getSeller, getUser, loginSeller, loginUser, refreshToken, resetUserPassword, sellerRegistration, userForgotPassword, userRegistration, verifySeller, verifyUserForgotPassword, verifyUserOtp } from "../controllers/auth.controller";
@@ -10,7 +11,7 @@ router.post('/user-registration',userRegistration);
 router.post('/verify-user',verifyUserOtp);
 router.post('/login-user',loginUser);
 router.post('/refresh-token', refreshToken);
-router.get('/logged-in-user',isAuthenticated,getUser);
+router.get('/logged-in-user',isAuthenticated,isUser,getUser);
 router.post('/forgot-password-user',userForgotPassword);
 router.post('/verify-forgot-password-user',verifyUserForgotPassword);
 router.post('/reset-password-user',resetUserPassword);

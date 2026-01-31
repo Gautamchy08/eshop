@@ -9,7 +9,9 @@ const prisma = new PrismaClient();
 const isAuthenticated = async (req:any,res:any,next:NextFunction)=>{
 
     try {
-        const token = req.cookies['access_token'] || req.cookies['seller-access-token'] || req.headers.authorization?.split(" ")[1];
+        const token = req.cookies['access_Token'] || req.cookies['seller-access-token'] || req.headers.authorization?.split(" ")[1];
+
+        console.log('token found at isAuthenticated',token);
 
     if(!token){
         console.log('no token found at isAuthenticated')
@@ -21,6 +23,7 @@ const isAuthenticated = async (req:any,res:any,next:NextFunction)=>{
 
     const decoded = jwt.verify(token, process.env.JWT_ACCESS_TOKEN_SECRET as string) as {id:string, role:'user'|'seller'};
     console.log('decoded data from isAuthenticated',decoded)
+    console.log('decoded id from isAuthenticated',decoded.id)
 
     if(!decoded){
         console.log('invalid token at is authenticated')
@@ -54,7 +57,7 @@ const isAuthenticated = async (req:any,res:any,next:NextFunction)=>{
         });
     }
     req.role = decoded.role;
-    return next();
+   return  next();
     } catch (error) {
         console.log(error)
          return res.status(401).json({

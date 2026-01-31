@@ -327,18 +327,18 @@ export default Signup;
 //   return (event) => {
 //     event.preventDefault();
 
-//    // Step 1: Validate all registered fields
+   // Step 1: Validate all registered fields
 //     const validationErrors = validateAllFields();
 
 //     if (Object.keys(validationErrors).length === 0) {
-    //   // Step 2: If valid, collect all values
+      // Step 2: If valid, collect all values
 //       const formData = {
 //         name: inputValues.name,
 //         email: inputValues.email,
 //         password: inputValues.password,
 //       };
 
-//       // Step 3: Pass to your callback function
+      // Step 3: Pass to your callback function
 //       callback(formData); // ← This is your onSubmit!
 //     }
 //   };

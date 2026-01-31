@@ -5,8 +5,12 @@ import { AlignLeft, ChevronDown, CircleUser, Heart, ShoppingCart } from 'lucide-
 import React, { useEffect } from 'react'
 import { useState } from 'react'
 import useUser from 'apps/user-ui/src/hooks/useUser'
+import { useStore } from 'apps/user-ui/src/store'
 const HeaderBottom = () => {
 
+
+   const wishlist  = useStore((state:any)=> state.wishlist);
+   const cart  = useStore((state:any)=> state.cart);
    const {user,isLoading} = useUser();
    const [show, setShow] = useState(false)
    const [isSticky, setIsSticky] = useState(false)
@@ -97,14 +101,14 @@ const HeaderBottom = () => {
             <Link href='/wishlist' className='relative'>
            <Heart /> 
                <div className='size-6 border-2 border-white bg-red-600 rounded-full flex items-center justify-center absolute top-[-10px] right-[-10px] '>
-                <span className='text-white font-medium text-sm'>0</span>
+                <span className='text-white font-medium text-sm'>{wishlist?.length}</span>
                </div>
 
             </Link>
               <Link href='/cart' className='relative'>
           <ShoppingCart />
                <div className='size-6 border-2 border-white bg-red-600 rounded-full flex items-center justify-center absolute top-[-10px] right-[-10px] '>
-                <span className='text-white font-medium text-sm'>0</span>
+                <span className='text-white font-medium text-sm'>{cart?.length}</span>
                </div>
 
             </Link>

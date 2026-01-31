@@ -64,13 +64,10 @@ axiosInstance.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        // console.log('🔄 Attempting to refresh token...');
-         await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/refresh-token`,
-          {},
-          { withCredentials: true }
-        );
-        // console.log('✅ Token refresh successful:', refreshResponse.data);
+        console.log('🔄 Attempting to refresh token...');
+        const response =   await axiosInstance.post('/api/refresh-token',{},{withCredentials:true});
+      
+        console.log('✅ Token refresh successful:',response.data);
         isRefreshing = false;
         onRrefreshed();
         return axiosInstance(originalRequest);
@@ -83,8 +80,8 @@ axiosInstance.interceptors.response.use(
       }
     }
 
-    console.log('⚠️ Error not handled by interceptor, rejecting...');
-    return Promise.reject(error);
+    // console.log('⚠️ Error not handled by interceptor, rejecting...');
+    // return Promise.reject(error);
   }
 );
 export default axiosInstance;
