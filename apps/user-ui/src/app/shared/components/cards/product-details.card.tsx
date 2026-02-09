@@ -1,10 +1,14 @@
 'use client';
 import Link from 'next/dist/client/link';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Router from 'next/router';
+import {useStore} from '@/store';
 import { Heart, MapPin, ShoppingCart, X } from 'lucide-react';
-
+import useLocationTracking from '@/hooks/useLocationTracking';
+import useDeviceTracking from '@/hooks/useDeviceTracking';
+import useUser from '@/hooks/useUser';
+import { sendKafkaEvent } from '@/actions/track-user';
 const ProductDetailsCard = ({
   data,
   setOpen,
@@ -12,6 +16,18 @@ const ProductDetailsCard = ({
   data: any;
   setOpen: (open: boolean) => void;
 }) => {
+
+  const addToCart = useStore((state: any) => state.addToCart);
+  const cart = useStore((state: any) => state.cart);
+  const isInCart = cart.some((item: any) => item.id === data.id);
+  const addToWishlist = useStore((state: any) => state.addToWishlist);
+  const removeFromWishlist = useStore((state: any) => state.removeFromWishlist);
+  const wishlist = useStore((state: any) => state.wishlist);
+  const isWishlisted = wishlist.some((item: any) => item.id === data.id);
+  const { user } = useUser();
+  const location = useLocationTracking();
+  const deviceInfo = useDeviceTracking();
+
   const router = Router;
   const [activeImage, setActiveImage] = useState(0);
   const [isSelected, setIsSelected] = useState(data?.colors?.[0] || '');
@@ -24,6 +40,19 @@ const ProductDetailsCard = ({
   console.log('consoling data from product details', data);
   console.log('consoling image from product details', data?.images);
   console.log('consoling shop name ', data?.shops?.name);
+
+  useEffect(() => {
+    console.log('sending event to kafka : "product_view" ')
+    sendKafkaEvent({
+      userId : user.id,
+      productId : data.id,
+      shopId : data.shops.id,
+      action : 'product_view',
+      country : location?.country||'unknown',
+      city : location?.city||'unknown',
+      device : deviceInfo,
+    })
+  },[user,data])
   return (
     <div
       onClick={() => setOpen(false)}
@@ -198,12 +227,36 @@ const ProductDetailsCard = ({
                 </button>
               </div>
               <button
-                className={`px-4 py-2 flex gap-2 text-center bg-red-500 hover:bg-red-700 font-medium transition text-white rounded-md `}
+                disabled={isInCart}
+                onClick={()=>{addToCart({
+                  ...data,
+                  quantity,
+                  selectedOptions : {
+                    color : isSelected,
+                    size : isSizeSelected
+                  }
+                })}}
+                className={`px-4 py-2 flex gap-2 text-center bg-red-500 hover:bg-red-700 font-medium transition text-white rounded-md ${isInCart ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
               >
                 <ShoppingCart size={20} /> <span> Add to Cart</span>
               </button>
               <button className="opacity-[.7] cursor-pointer">
-                <Heart size={30} fill="red" color="transparent" />
+                <Heart size={30} 
+                fill={isWishlisted ? "red" : "transparent"}
+                    color = {isWishlisted ? "red" : "black"} 
+                    
+                 onClick={()=> isWishlisted?removeFromWishlist(data.id,user,location,deviceInfo):
+                  addToWishlist({
+                    ...data,
+                     quantity,
+                  selectedOptions : {
+                    color : isSelected,
+                    size : isSizeSelected
+                  }
+                    
+                  })
+                 } 
+                  />
                 {''}
               </button>
             </div>

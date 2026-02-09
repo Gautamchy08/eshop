@@ -3,8 +3,8 @@ import Link from 'next/link'
 import React from 'react'
 import { Search,CircleUser, Heart, ShoppingCart } from 'lucide-react'
 import HeaderBottom from './header-bottom'
-import useUser from 'apps/user-ui/src/hooks/useUser'
-import { useStore } from 'apps/user-ui/src/store'
+import useUser from '@/hooks/useUser'
+import { useStore } from '@/store'
 
 
 const Header = () => {

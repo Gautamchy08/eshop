@@ -141,3 +141,40 @@ model products {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model UserAnalytics {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String   @unique
+  lastVisited     DateTime @default(now())
+  lastTrained     DateTime @default(now())
+  country         String?
+  city            String?
+  device          String?
+  actions         Action[]
+  recommendations String[] // Array of Product IDs for recommendations
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+// Embedded type for the actions array in MongoDB
+type Action {
+  productId String
+  shopId    String
+  action    String   // e.g., "view", "add_to_cart", "wishlist"
+  timestamp DateTime @default(now())
+}
+
+model ProductAnalytics {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  productId    String   @unique
+  shopId       String
+  views        Int      @default(0)
+  cartAdds     Int      @default(0)
+  wishlistAdds Int      @default(0)
+  purchases    Int      @default(0)
+  lastViewedAt DateTime @default(now())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+

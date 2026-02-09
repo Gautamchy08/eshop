@@ -1,11 +1,11 @@
 'use client'
 import Link from 'next/link'
-import { navItems } from 'apps/user-ui/src/configs/constants'
+import { navItems } from '@/configs/constants'
 import { AlignLeft, ChevronDown, CircleUser, Heart, ShoppingCart } from 'lucide-react'
 import React, { useEffect } from 'react'
 import { useState } from 'react'
-import useUser from 'apps/user-ui/src/hooks/useUser'
-import { useStore } from 'apps/user-ui/src/store'
+import useUser from '@/hooks/useUser'
+import { useStore } from '@/store'
 const HeaderBottom = () => {
 
 

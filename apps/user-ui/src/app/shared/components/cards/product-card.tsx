@@ -3,12 +3,10 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import Rating from '../ratings';
 import ProductDetailsCard from './product-details.card';
-import { useStore } from 'apps/user-ui/src/store';
-import useLocationTracking from 'apps/user-ui/src/hooks/useLocationTracking';
-import useDeviceTracking from 'apps/user-ui/src/hooks/useDeviceTracking';
-import useUser from 'apps/user-ui/src/hooks/useUser';
-import { navItems } from 'apps/user-ui/src/configs/constants';
-
+import { useStore } from '@/store';
+import useLocationTracking from '@/hooks/useLocationTracking';
+import useDeviceTracking from '@/hooks/useDeviceTracking';
+import useUser from '@/hooks/useUser';
 const ProductCard = ({
   product,
   isEvent,

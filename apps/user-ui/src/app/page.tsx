@@ -16,7 +16,7 @@ const page = () => {
     staleTime : 2 * 60 * 1000 // 2 minutes
   });
 
-  console.log('data fetching for all products', products);
+  // console.log('data fetching for all products', products);
    
 
 
@@ -29,7 +29,7 @@ const page = () => {
     staleTime : 2 * 60 * 1000 // 2 minutes
   });
 
-  console.log('data fetching for the latest products',latestProducts);
+  // console.log('data fetching for the latest products',latestProducts);
   
 
 

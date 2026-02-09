@@ -142,7 +142,7 @@ export const uploadProductImage = async (
       fileName: `product-${Date.now()}.jpg`,
       folder: '/products',
     });
-    console.log('consoling response on image-upload', response);
+    // console.log('consoling response on image-upload', response);
     res.status(201).json({
       file_url: response.url,
       fileId: response.fileId,
@@ -277,7 +277,7 @@ export const createProduct = async (
         images: true,
       },
     });
-    console.log('response from create-product', newProduct);
+    // console.log('response from create-product', newProduct);
     res.status(200).json({
       messages: ' finally Product created successfully',
       success: true,
@@ -446,12 +446,12 @@ export const getAllProducts = async (
       }),
     ]);
 
-    console.log(
-      'consoling  from get-all-products function',
-      products,
-      total,
-      top10Products
-    );
+    // // console.log(
+    //   'consoling  from get-all-products function',
+    //   products,
+    //   total,
+    //   top10Products
+    // );
 
     res.status(200).json({
       products,
