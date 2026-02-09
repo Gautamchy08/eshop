@@ -177,4 +177,84 @@ model ProductAnalytics {
   updatedAt    DateTime @updatedAt
 }
 
+// Order Status Enum
+enum OrderStatus {
+  pending
+  confirmed
+  processing
+  shipped
+  out_for_delivery
+  delivered
+  cancelled
+  refunded
+}
 
+// Payment Status Enum
+enum PaymentStatus {
+  pending
+  paid
+  failed
+  refunded
+}
+
+// Payment Method Enum
+enum PaymentMethod {
+  cod
+  stripe
+  razorpay
+  paypal
+}
+
+// Embedded type for order items in MongoDB
+type OrderItem {
+  productId    String
+  productTitle String
+  productSlug  String
+  productImage String?
+  shopId       String
+  shopName     String
+  quantity     Int
+  price        Float
+  regularPrice Float?
+  color        String?
+  size         String?
+}
+
+// Embedded type for shipping address
+type ShippingAddress {
+  fullName    String
+  phone       String
+  addressLine String
+  city        String
+  state       String
+  country     String
+  postalCode  String
+}
+
+// Orders Model
+model orders {
+  id              String          @id @default(auto()) @map("_id") @db.ObjectId
+  orderNumber     String          @unique
+  userId          String          @db.ObjectId
+  shopId          String          @db.ObjectId
+  items           OrderItem[]
+  shippingAddress ShippingAddress
+  subtotal        Float
+  shippingCost    Float           @default(0)
+  discount        Float           @default(0)
+  discountCode    String?
+  tax             Float           @default(0)
+  total           Float
+  paymentMethod   PaymentMethod
+  paymentStatus   PaymentStatus   @default(pending)
+  paymentId       String?         // Stripe/Razorpay payment ID
+  orderStatus     OrderStatus     @default(pending)
+  notes           String?
+  trackingNumber  String?
+  estimatedDelivery DateTime?
+  deliveredAt     DateTime?
+  cancelledAt     DateTime?
+  cancelReason    String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+}
