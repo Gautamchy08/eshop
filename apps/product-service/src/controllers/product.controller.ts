@@ -531,8 +531,8 @@ export const getFilteredProducts = async (
         gte: minPrice,
         lte: maxPrice,
       },
-
-      starting_date: null,
+      isDeleted: false,
+      status: 'active',
     };
 
     if (categories && (categories as string[]).length > 0) {
@@ -544,14 +544,14 @@ export const getFilteredProducts = async (
     }
 
     if (colors && (colors as string[]).length > 0) {
-      filters.color = {
-        in: Array.isArray(colors) ? colors : String(colors).split(','),
+      filters.colors = {
+        hasSome: Array.isArray(colors) ? colors : String(colors).split(','),
       };
     }
 
     if (sizes && (sizes as string[]).length > 0) {
-      filters.size = {
-        in: Array.isArray(sizes) ? sizes : String(sizes).split(','),
+      filters.sizes = {
+        hasSome: Array.isArray(sizes) ? sizes : String(sizes).split(','),
       };
     }
 
@@ -699,23 +699,22 @@ export const getFilteredShops = async (
       };
     }
 
-    const [products, total] = await Promise.all([
-      prisma.products.findMany({
+    const [shops, total] = await Promise.all([
+      prisma.shops.findMany({
         where: filters,
         skip,
         take: parsedLimit,
         include: {
-          images: true,
-          shops: true,
+          image: true,
         },
       }),
-      prisma.products.count({ where: filters }),
+      prisma.shops.count({ where: filters }),
     ]);
 
     const totalPages = Math.ceil(total / parsedLimit);
 
     return res.status(200).json({
-      products,
+      shops,
       success: true,
       pagination: {
         total,

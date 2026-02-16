@@ -12,8 +12,8 @@ model images {
   id      String  @id @default(auto()) @map("_id") @db.ObjectId
   file_id String
   url     String
-  userId  String? @unique @db.ObjectId
-  shopId  String? @unique @db.ObjectId
+  userId  String? @db.ObjectId
+  shopId  String? @db.ObjectId
 
   products   products? @relation(fields: [productsId], references: [id])
   productsId String?   @db.ObjectId
@@ -29,8 +29,23 @@ model users {
   password    String?
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
-  images      images?
+  images      images[]
   shopReviews shopReviews[]
+  addresses   address[]
+}
+
+model address {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  label     String   @default("home")
+  name      String
+  street    String
+  city      String
+  zip       String
+  country   String
+  isDefault Boolean  @default(false)
+  userId    String   @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model shopReviews {
@@ -57,7 +72,7 @@ model shops {
   social_links  Json[]
   rating        Float?        @default(0)
   reviews       shopReviews[]
-  image         images?
+  image         images[]
   sellerId      String        @unique @db.ObjectId
   seller        sellers       @relation(fields: [sellerId], references: [id], onDelete: Cascade)
   products      products[]

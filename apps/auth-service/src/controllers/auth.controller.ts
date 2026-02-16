@@ -525,7 +525,7 @@ export const createStripeConnectLink = async(req:Request, res:Response,next:Next
         }
 //    create stripe account
         const account =  await stripeClient.accounts.create({
-            type: 'express',
+            type: 'express', 
             country: 'IN',
             email: seller?.email,
             business_type: 'individual',
@@ -558,6 +558,105 @@ export const createStripeConnectLink = async(req:Request, res:Response,next:Next
     } catch (error) {
         return next(error);
     } 
+}
+
+export const addUserAddress = async(req:any, res:Response,next:NextFunction) => {
+    try {
+        const userId = req.user?.id;
+        const {label,name,city,street,country,zip,isDefault} = req.body;
+
+        if(!label || !name || !city || !street || !country || !zip){
+            throw new ValidationError('All fields are required to add address');
+        }
+
+        if(isDefault){
+            await prisma.address.updateMany({
+                where : {
+                    userId,
+                    isDefault : true
+                },
+                data : {
+                    isDefault : false
+                }
+            })
+        };
+        const newAddress = await prisma.address.create({
+            data : {
+                userId,
+                label,
+                name,
+                city,
+                street,
+                country,
+                zip,
+                isDefault,
+                
+            }
+        });
+
+        res.status(201).json({
+            success : true,
+            message : 'Address added successfully',
+            newAddress
+        });
+
+    
+        
+    } catch (error) {
+        return next(error);
+    }
+}
+
+export const deleteUserAddress = async(req:any, res:Response,next:NextFunction) => {
+    try {
+        const userId = req.user?.id;
+        const {addressId} = req.params;
+
+        if(!addressId){
+            throw new ValidationError('Address ID is required to delete address');
+        }
+        const existingAddress = await prisma.address.findUnique({
+            where : {
+                id : addressId,
+                userId
+            }
+        });
+        if(!existingAddress){
+            throw new NotFoundError('Address not found');
+        }
+        await prisma.address.delete({
+            where : {
+                id : addressId
+            }
+        });
+        res.status(200).json({
+            success : true,
+            message : 'Address deleted successfully'
+        });
+        
+    } catch (error) {
+        return next(error);
+    }
+}
+
+export const getUserAddress = async (req:any, res:Response,next:NextFunction) => {
+    try {
+        const userId = req.user?.id;
+        const addresses = await prisma.address.findMany({
+            where : {
+                userId
+            },
+            orderBy : {
+                createdAt : 'desc'
+            }
+        });
+        res.status(200).json({
+            success : true,
+            addresses
+        });
+    } catch (error) {
+        return next(error);
+    }
 }
 
 

@@ -1,0 +1,22 @@
+export const categories = [
+  { value: "electronics", label: "Electronics" },
+  { value: "fashion_men", label: "Men's Fashion" },
+  { value: "fashion_women", label: "Women's Fashion" },
+  { value: "fashion_kids", label: "Kids' Fashion" },
+  { value: "home_kitchen", label: "Home & Kitchen" },
+  { value: "beauty_personal_care", label: "Beauty & Personal Care" },
+  { value: "health_wellness", label: "Health & Wellness" },
+  { value: "sports_fitness", label: "Sports & Fitness" },
+  { value: "books_stationery", label: "Books & Stationery" },
+  { value: "toys_games", label: "Toys & Games" },
+  { value: "groceries", label: "Groceries" },
+  { value: "automotive", label: "Automotive" },
+  { value: "mobile_accessories", label: "Mobile Accessories" },
+  { value: "computers_laptops", label: "Computers & Laptops" },
+  { value: "gaming", label: "Gaming" },
+  { value: "jewelry", label: "Jewelry" },
+  { value: "watches", label: "Watches" },
+  { value: "footwear", label: "Footwear" },
+  { value: "furniture", label: "Furniture" },
+  { value: "pet_supplies", label: "Pet Supplies" }
+];

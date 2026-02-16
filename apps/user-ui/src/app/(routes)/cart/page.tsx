@@ -8,6 +8,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Minus, Plus, ShoppingCart, Trash2, Tag, Loader2 } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import axiosInstance from '@/utils/axiosInstance';
 
 const CartPage = () => {
   const cart = useStore((state: any) => state.cart);
@@ -44,6 +46,15 @@ const CartPage = () => {
     console.log('removing from cart',item)
     removeFromCart(item, user, location, deviceInfo);
   };
+
+  const { data: addresses, isLoading: addressesLoading } = useQuery({
+      queryKey: ['shipping-addresses'],
+      queryFn: async () => {
+        const res = await axiosInstance.get('/api/shipping-addresses');
+        return res.data.addresses;
+      },
+    });
+  
 
   const handleClearCart = () => {
     useStore.setState({ cart: [] });
@@ -340,12 +351,13 @@ const CartPage = () => {
                   onChange={(e) => setSelectedAddressId(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white"
                 >
-                  <option value="addr1">
-                    John Doe, 123 Main St, New York, NY 10001, USA
-                  </option>
-                  <option value="addr2">
-                    Jane Smith, 456 Oak Ave, Los Angeles, CA 90001, USA
-                  </option>
+                  {addresses.map((address:any)=>{
+                    return(
+                      <option value={address.id}>
+                        {address.label} -
+                        {address.name}, {address.city}, {address.country}                      </option>
+                    )
+                  })}
                 </select>
               </div>
 

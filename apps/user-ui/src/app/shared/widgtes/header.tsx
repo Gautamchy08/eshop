@@ -34,7 +34,7 @@ const Header = () => {
                   !isLoading && user ? (
                     <>
    <Link href='/profile'  className='w-[50px] h-[50px] font-medium  border-2 flex items-center justify-center rounded-full border-[#c1cddeab]'><CircleUser  size={30} /></Link>
-                <Link href='/login'> 
+                <Link href='/profile'> 
                 <span className=' block font-medium'>hello,</span>
                 <span className=' font-semibold'>{user.name.split(' ')[0]}</span>
                 </Link>
